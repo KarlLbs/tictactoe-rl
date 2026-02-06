@@ -10,4 +10,3 @@ wheels/
 .venv
 
 old_game.py
-random_agent.py

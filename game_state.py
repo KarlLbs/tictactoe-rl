@@ -1,7 +1,7 @@
-### game.py
-### Implements the Game class
+### game_state.py
+### Implements the GameState class
 
-class Game2:
+class GameState:
     def __init__(self):
         self.grid = [None for _ in range(9)]
 
@@ -9,14 +9,6 @@ class Game2:
         self.__init__()
 
     def detect_end(self):
-        """a = abs(self.grid[0] + self.grid[1] + self.grid[2])==3
-        b = abs(self.grid[3] + self.grid[4] + self.grid[5])==3
-        c = abs(self.grid[6] + self.grid[7] + self.grid[8])==3
-        d = abs(self.grid[0] + self.grid[3] + self.grid[6])==3
-        e = abs(self.grid[1] + self.grid[4] + self.grid[7])==3
-        f = abs(self.grid[2] + self.grid[5] + self.grid[8])==3
-        g = abs(self.grid[0] + self.grid[4] + self.grid[8])==3
-        h = abs(self.grid[2] + self.grid[4] + self.grid[6])==3"""
         a = (self.grid[0]==self.grid[1]==self.grid[2] and self.grid[0])
         b = (self.grid[3]==self.grid[4]==self.grid[5] and self.grid[3])
         c = (self.grid[6]==self.grid[7]==self.grid[8] and self.grid[6])
@@ -25,7 +17,8 @@ class Game2:
         f = (self.grid[2]==self.grid[5]==self.grid[8] and self.grid[2])
         g = (self.grid[0]==self.grid[4]==self.grid[8] and self.grid[0])
         h = (self.grid[2]==self.grid[4]==self.grid[6] and self.grid[2])
-        if a or b or c or d or e or f or g or h : 
+        i = (self.grid.count(None)==0)
+        if a or b or c or d or e or f or g or h or i: 
             return True
 
     def whos_turn_is_it(self):
@@ -40,8 +33,8 @@ class Game2:
         if self.grid[square] :
             raise ValueError(f"Square {square} has already been filled !")
 
-
     def step(self, square):
+        print(square)
         try :
             self.check_action(square)
         except Exception as e : 
