@@ -1,27 +1,29 @@
+### main.py
+
 from game import Game
 
-
-def main():
-    print("Hello from tictactoe-rl!")
+def main2():
     game = Game()
     game.render()
-    game.step(4, 1)
+    game.step(4)
     game.render()
-    game.step(0, 2)
+    game.step(0)
     game.render()
-    game.step(1, 2)
-    game.step(0, 1)
+    game.step(1)
     game.render()
-    game.step(2, 1)
+    game.step(2)
     game.render()
-    game.step(1, 2)
+    game.step(1)
     game.render()
-    game.step(6, 1)
+    game.step(6)
     game.render()
-    game.step(8, 2)
+    game.step(8)
+    game.render()
+    game.step(7)
+    game.render()
+    game.step(4)
     game.reset()
     game.render()
 
-
 if __name__ == "__main__":
-    main()
+    main2()

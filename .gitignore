@@ -9,5 +9,5 @@ wheels/
 # Virtual environments
 .venv
 
-gamev2.py
+old_game.py
 random_agent.py

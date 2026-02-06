@@ -1,49 +1,60 @@
 ### game.py
 ### Implements the Game class
 
-class Game:
+class Game2:
     def __init__(self):
-        self.grid = [0 for _ in range(9)]
-        self.player = 1
+        self.grid = [None for _ in range(9)]
 
     def reset(self):
         self.__init__()
 
     def detect_end(self):
-        a = (self.grid[0]==self.grid[1]==self.grid[2] and self.grid[0]!=0)
-        b = (self.grid[3]==self.grid[4]==self.grid[5] and self.grid[3]!=0)
-        c = (self.grid[6]==self.grid[7]==self.grid[8] and self.grid[6]!=0)
-        d = (self.grid[0]==self.grid[3]==self.grid[6] and self.grid[0]!=0)
-        e = (self.grid[1]==self.grid[4]==self.grid[7] and self.grid[1]!=0)
-        f = (self.grid[2]==self.grid[5]==self.grid[8] and self.grid[2]!=0)
-        g = (self.grid[0]==self.grid[4]==self.grid[8] and self.grid[0]!=0)
-        h = (self.grid[2]==self.grid[4]==self.grid[6] and self.grid[2]!=0)
+        """a = abs(self.grid[0] + self.grid[1] + self.grid[2])==3
+        b = abs(self.grid[3] + self.grid[4] + self.grid[5])==3
+        c = abs(self.grid[6] + self.grid[7] + self.grid[8])==3
+        d = abs(self.grid[0] + self.grid[3] + self.grid[6])==3
+        e = abs(self.grid[1] + self.grid[4] + self.grid[7])==3
+        f = abs(self.grid[2] + self.grid[5] + self.grid[8])==3
+        g = abs(self.grid[0] + self.grid[4] + self.grid[8])==3
+        h = abs(self.grid[2] + self.grid[4] + self.grid[6])==3"""
+        a = (self.grid[0]==self.grid[1]==self.grid[2] and self.grid[0])
+        b = (self.grid[3]==self.grid[4]==self.grid[5] and self.grid[3])
+        c = (self.grid[6]==self.grid[7]==self.grid[8] and self.grid[6])
+        d = (self.grid[0]==self.grid[3]==self.grid[6] and self.grid[0])
+        e = (self.grid[1]==self.grid[4]==self.grid[7] and self.grid[1])
+        f = (self.grid[2]==self.grid[5]==self.grid[8] and self.grid[2])
+        g = (self.grid[0]==self.grid[4]==self.grid[8] and self.grid[0])
+        h = (self.grid[2]==self.grid[4]==self.grid[6] and self.grid[2])
         if a or b or c or d or e or f or g or h : 
             return True
 
-    def check_action(self, square, player):
+    def whos_turn_is_it(self):
+        if len([i for i in self.grid if i])%2 == 0:
+            return 1
+        else :
+            return 2
+
+    def check_action(self, square):
         if self.detect_end():
             raise ValueError("The game is already over !")
-        if player != self.player:
-            raise ValueError(f"It's not player {player}'s turn !")
-        if self.grid[square] != 0:
+        if self.grid[square] :
             raise ValueError(f"Square {square} has already been filled !")
 
 
-    def step(self, square, player):
+    def step(self, square):
         try :
-            self.check_action(square, player)
+            self.check_action(square)
         except Exception as e : 
             print("Invalid move : ", e)
             return
+        player = self.whos_turn_is_it()
         self.grid[square] = 1 if player==1 else -1
         if self.detect_end() : 
             print(f"Player {player} victory !")
             return
-        self.player = 2 if player==1 else 1
 
     def render(self):
-        grid2 = [' ' if i==0 else i for i in self.grid]
+        grid2 = [' ' if i==None else i for i in self.grid]
         grid2 = ['X' if i==1 else i for i in grid2]
         grid2 = ['O' if i==-1 else i for i in grid2]
         print("Current state of the game :")
@@ -54,3 +65,5 @@ class Game:
         print(" --- --- --- ")
         print(f"| {grid2[6]} | {grid2[7]} | {grid2[8]} |")
         print(" --- --- --- ")
+
+
