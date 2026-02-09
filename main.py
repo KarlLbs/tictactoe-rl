@@ -2,6 +2,7 @@
 
 from game_state import GameState
 from random_agent import RandomAgent
+from human_agent import HumanAgent
 
 def game_state():
     game = GameState()
@@ -26,7 +27,7 @@ def game_state():
     game.reset()
     game.render()
 
-def main():
+def random_agent():
     game = GameState()
     agent1 = RandomAgent()
     agent2 = RandomAgent()
@@ -36,6 +37,18 @@ def main():
         game.render()
         grid = game.grid
         game.step(agent2.chose_action(grid))
+        game.render()
+
+def main():
+    game = GameState()
+    player1 = HumanAgent()
+    player2 = RandomAgent()
+    while not game.detect_end():
+        grid = game.grid
+        game.step(player1.chose_action(grid))
+        game.render()
+        grid = game.grid
+        game.step(player2.chose_action(grid))
         game.render()
 
 if __name__ == "__main__":

@@ -1,10 +1,11 @@
 ### random_agent.py
 ### Implements the RandomAgent class, an agent that plays randomly
 
+from base_agent import BaseAgent
 import numpy as np
 import random
 
-class RandomAgent():
+class RandomAgent(BaseAgent):
     def __init__(self):
         pass
 
