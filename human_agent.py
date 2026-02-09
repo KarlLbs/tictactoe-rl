@@ -8,5 +8,13 @@ class HumanAgent(BaseAgent):
         pass
 
     def chose_action(self, observation):
-        action = input("Enter the square you want to play in : ")
-        return int(action)
+        while True : 
+            action = input("Enter the square you want to play in : ")
+            try : 
+                value = int(action)
+                if value<0 or value>8:
+                    print("Please input a square number between 0 and 8 included.")
+                    continue
+                return value
+            except ValueError:
+                print("Please enter a valid square integer.")
