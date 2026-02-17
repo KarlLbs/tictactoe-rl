@@ -47,6 +47,7 @@ def main():
     engine.play_x_games(10000)
     engine = GameEngine(GameState(), NextSquareAgent(), RandomAgent())
     engine.play_x_games(10000)
+    engine.play_x_games_fair(10000)
 
 if __name__ == "__main__":
     main()

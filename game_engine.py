@@ -42,6 +42,19 @@ class GameEngine():
         for _ in range(x):
             wins.append(self.play_game(render))
         print(f"Results after {x} games :")
-        print(f"Player 1 : {wins.count(1)} wins ({100*wins.count(1)/len(wins):.2f}%)")
-        print(f"Player 2 : {wins.count(2)} wins ({100*wins.count(2)/len(wins):.2f}%)")
+        print(f"Player 1 ({self.player1.__repr__()}): {wins.count(1)} wins ({100*wins.count(1)/len(wins):.2f}%)")
+        print(f"Player 2 ({self.player2.__repr__()}): {wins.count(2)} wins ({100*wins.count(2)/len(wins):.2f}%)")
         print(f"Ties : {wins.count(0)} ({100*wins.count(0)/len(wins):.2f}%)")
+    
+    def play_x_games_fair(self, x:int, render=False):
+        wins = []
+        for _ in range(x//2):
+            wins.append(self.play_game(render))
+        self.__init__(self.state, self.player2, self.player1)
+        for _ in range(x//2 + x%2):
+            winner = 1 if self.play_game(render)==2 else 2
+            wins.append(winner)
+        print(f"Results after {x} games, alternating who starts:")
+        print(f"{self.player2.__repr__()}: {wins.count(1)} wins ({100*wins.count(1)/len(wins):.2f}%)")
+        print(f"{self.player1.__repr__()}: {wins.count(2)} wins ({100*wins.count(2)/len(wins):.2f}%)")
+        print(f"Ties : {wins.count(0)} ({100*wins.count(0)/len(wins):.2f}%)")  

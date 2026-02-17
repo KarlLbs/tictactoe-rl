@@ -7,3 +7,6 @@ class BaseAgent(ABC):
     @abstractmethod
     def chose_action(self, observation)->int:
         pass
+
+    def __repr__(self):
+        return self.__class__.__name__
