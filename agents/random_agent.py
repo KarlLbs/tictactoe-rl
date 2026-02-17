@@ -1,8 +1,7 @@
 ### random_agent.py
 ### Implements the RandomAgent class, an agent that plays randomly
 
-from base_agent import BaseAgent
-import numpy as np
+from agents.base_agent import BaseAgent
 import random
 
 class RandomAgent(BaseAgent):

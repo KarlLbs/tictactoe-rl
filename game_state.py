@@ -19,9 +19,9 @@ class GameState:
         h = (self.grid[2]==self.grid[4]==self.grid[6] and self.grid[2])
         i = (self.grid.count(None)==0)
         if a or b or c or d or e or f or g or h: 
-            return 1 # Win
+            return 1 # Win (winner determined by who last played)
         elif i :
-            return 0 # no win but full grid : tie
+            return 0 # No win but full grid : tie
         else : 
             return -1
 

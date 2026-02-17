@@ -10,5 +10,6 @@ wheels/
 .venv
 
 old_game.py
+close_play_agent.py
 
 todo.txt

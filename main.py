@@ -1,9 +1,11 @@
 ### main.py
 
-from game_engine import GameEngine
 from game_state import GameState
-from random_agent import RandomAgent
-from human_agent import HumanAgent
+from game_engine import GameEngine
+from agents.human_agent import HumanAgent
+from agents.random_agent import RandomAgent
+from agents.next_square_agent import NextSquareAgent
+
 
 def game_state():
     game = GameState()
@@ -41,8 +43,10 @@ def random_agent():
         game.render()
 
 def main():
-    engine = GameEngine(GameState(), RandomAgent(), RandomAgent())
-    engine.play_x_games(100000)
+    engine = GameEngine(GameState(), RandomAgent(), NextSquareAgent())
+    engine.play_x_games(10000)
+    engine = GameEngine(GameState(), NextSquareAgent(), RandomAgent())
+    engine.play_x_games(10000)
 
 if __name__ == "__main__":
     main()

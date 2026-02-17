@@ -1,7 +1,7 @@
 ### human_agent.py
 ### Implements the HumanAgent class, an agent to play through the terminal
 
-from base_agent import BaseAgent
+from agents.base_agent import BaseAgent
 
 class HumanAgent(BaseAgent):
     def __init__(self):

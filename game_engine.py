@@ -24,14 +24,24 @@ class GameEngine():
                     print(f"Player 2 move : square {move}")
                     self.state.render()
         if self.state.detect_end()==0:
+            if render : 
+                print("Tie !")
+                self.state.render()
             return 0
-        return 1 if self.state.whos_turn_is_it()==2 else 2
+        if self.state.whos_turn_is_it()==2:
+            if render : 
+                print("Player 1 victory !")
+            return 1
+        else : 
+            if render : 
+                print("Player 2 victory !")
+            return 2
     
     def play_x_games(self, x:int, render=False):
         wins = []
         for _ in range(x):
             wins.append(self.play_game(render))
         print(f"Results after {x} games :")
-        print(f"Player 1 : {wins.count(1)} wins ({100*wins.count(1)/len(wins)}%)")
-        print(f"Player 2 : {wins.count(2)} wins ({100*wins.count(2)/len(wins)}%)")
-        print(f"Ties : {wins.count(0)} ({100*wins.count(0)/len(wins)}%)")
+        print(f"Player 1 : {wins.count(1)} wins ({100*wins.count(1)/len(wins):.2f}%)")
+        print(f"Player 2 : {wins.count(2)} wins ({100*wins.count(2)/len(wins):.2f}%)")
+        print(f"Ties : {wins.count(0)} ({100*wins.count(0)/len(wins):.2f}%)")
