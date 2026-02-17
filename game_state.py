@@ -34,7 +34,6 @@ class GameState:
             raise ValueError(f"Square {square} has already been filled !")
 
     def step(self, square):
-        print(square)
         try :
             self.check_action(square)
         except Exception as e : 

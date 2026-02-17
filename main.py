@@ -1,5 +1,6 @@
 ### main.py
 
+from game_engine import GameEngine
 from game_state import GameState
 from random_agent import RandomAgent
 from human_agent import HumanAgent
@@ -40,16 +41,8 @@ def random_agent():
         game.render()
 
 def main():
-    game = GameState()
-    player1 = HumanAgent()
-    player2 = RandomAgent()
-    while not game.detect_end():
-        grid = game.grid
-        game.step(player1.chose_action(grid))
-        game.render()
-        grid = game.grid
-        game.step(player2.chose_action(grid))
-        game.render()
+    engine = GameEngine(GameState(), RandomAgent(), RandomAgent())
+    engine.play_game(render=True)
 
 if __name__ == "__main__":
     main()
