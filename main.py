@@ -42,7 +42,7 @@ def random_agent():
 
 def main():
     engine = GameEngine(GameState(), RandomAgent(), RandomAgent())
-    engine.play_game(render=True)
+    engine.play_x_games(100000)
 
 if __name__ == "__main__":
     main()

@@ -18,8 +18,12 @@ class GameState:
         g = (self.grid[0]==self.grid[4]==self.grid[8] and self.grid[0])
         h = (self.grid[2]==self.grid[4]==self.grid[6] and self.grid[2])
         i = (self.grid.count(None)==0)
-        if a or b or c or d or e or f or g or h or i: 
-            return True
+        if a or b or c or d or e or f or g or h: 
+            return 1 # Win
+        elif i :
+            return 0 # no win but full grid : tie
+        else : 
+            return -1
 
     def whos_turn_is_it(self):
         if len([i for i in self.grid if i])%2 == 0:
@@ -28,7 +32,7 @@ class GameState:
             return 2
 
     def check_action(self, square):
-        if self.detect_end():
+        if self.detect_end()==1 or self.detect_end()==0:
             raise ValueError("The game is already over !")
         if self.grid[square] :
             raise ValueError(f"Square {square} has already been filled !")
@@ -41,9 +45,6 @@ class GameState:
             return
         player = self.whos_turn_is_it()
         self.grid[square] = 1 if player==1 else -1
-        if self.detect_end() : 
-            print(f"Player {player} victory !")
-            return
 
     def render(self):
         grid2 = [' ' if i==None else i for i in self.grid]
