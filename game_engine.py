@@ -8,18 +8,18 @@ class GameEngine():
         self.player2 = player2
 
     def play_game(self, render=False):
-        self.state.reset()
-        while self.state.detect_end()==-1:
-            grid = self.state.grid
+        grid = self.state.reset()
+        done_flag = False
+        while not done_flag:
             if self.state.whos_turn_is_it()==1:
                 move = self.player1.chose_action(grid)
-                self.state.step(move)
+                grid, done_flag = self.state.step(move)
                 if render : 
                     print(f"Player 1 move : square {move}")
                     self.state.render()
             else : 
                 move = self.player2.chose_action(grid)
-                self.state.step(move)
+                grid, done_flag = self.state.step(move)
                 if render : 
                     print(f"Player 2 move : square {move}")
                     self.state.render()
@@ -28,14 +28,11 @@ class GameEngine():
                 print("Tie !")
                 self.state.render()
             return 0
-        if self.state.whos_turn_is_it()==2:
-            if render : 
-                print("Player 1 victory !")
-            return 1
         else : 
+            winner = 1 if self.state.whos_turn_is_it()==2 else 2
             if render : 
-                print("Player 2 victory !")
-            return 2
+                print(f"Player {winner} victory !")
+            return winner
     
     def play_x_games(self, x:int, render=False):
         wins = []
