@@ -54,22 +54,25 @@ def training_loop():
     agent = QLearningAgent(mode="exploration")
     opponent = RandomAgent()
     game = GameState()
-    nb_episodes = 1
+    nb_episodes = 100000
     for _ in range(nb_episodes):
         grid = game.reset()
         done_flag = False
         while not done_flag:
             action = agent.chose_action(grid)
             new_grid, done_flag = game.step(action)
-            game.render()
+            #game.render()
             if not done_flag : 
                 new_grid, done_flag = game.step(opponent.chose_action(new_grid))
-                game.render()
+                #game.render()
             if game.detect_end()==1 : 
                 reward = 10 if game.whos_turn_is_it()==2 else -10
             else : 
                 reward = 0
+            #print("grid, action, reward, new_grid : ", grid, action, reward, new_grid)
             agent.update_qtable(grid, action, reward, new_grid)
+            grid = new_grid
+    print(agent.qtable[tuple([None for _ in range(9)])])
 
 if __name__ == "__main__":
     training_loop()

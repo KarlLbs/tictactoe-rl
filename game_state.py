@@ -7,7 +7,7 @@ class GameState:
 
     def reset(self):
         self.__init__()
-        return self.grid
+        return self.grid.copy()
 
     def detect_end(self):
         a = (self.grid[0]==self.grid[1]==self.grid[2] and self.grid[0])
@@ -47,7 +47,7 @@ class GameState:
         player = self.whos_turn_is_it()
         self.grid[square] = 1 if player==1 else -1
         done_flag = (self.detect_end() != -1)
-        return self.grid, done_flag
+        return self.grid.copy(), done_flag
 
     def render(self):
         grid2 = [' ' if i==None else i for i in self.grid]
