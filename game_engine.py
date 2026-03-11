@@ -12,16 +12,16 @@ class GameEngine():
         done_flag = False
         while not done_flag:
             if self.state.whos_turn_is_it()==1:
-                move = self.player1.chose_action(grid)
-                grid, done_flag = self.state.step(move)
+                action = self.player1.chose_action(grid)
+                grid, done_flag = self.state.step(action)
                 if render : 
-                    print(f"Player 1 move : square {move}")
+                    print(f"Player 1 move : square {action}")
                     self.state.render()
             else : 
-                move = self.player2.chose_action(grid)
-                grid, done_flag = self.state.step(move)
+                action = self.player2.chose_action(grid)
+                grid, done_flag = self.state.step(action)
                 if render : 
-                    print(f"Player 2 move : square {move}")
+                    print(f"Player 2 move : square {action}")
                     self.state.render()
         if self.state.detect_end()==0:
             if render : 
