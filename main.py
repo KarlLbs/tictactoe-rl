@@ -6,6 +6,7 @@ from agents.human_agent import HumanAgent
 from agents.random_agent import RandomAgent
 from agents.q_learning_agent import QLearningAgent
 from agents.next_square_agent import NextSquareAgent
+from agents.middle_random_agent import MiddleRandomAgent
 
 
 def game_state():
@@ -94,5 +95,11 @@ def training_loop():
     engine.play_x_games(10000)
     engine2.play_x_games(10000)
 
+def tournament_test():
+    game = GameState()
+    engine = GameEngine(game)
+    agents = [RandomAgent(), NextSquareAgent(), MiddleRandomAgent()]
+    engine.tournament(agents, 1000)
+
 if __name__ == "__main__":
-    training_loop()
+    tournament_test()
