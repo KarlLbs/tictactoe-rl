@@ -3,6 +3,7 @@
 
 from agents.base_agent import BaseAgent
 import random
+import pickle
 
 class QLearningAgent(BaseAgent):
     def __init__(self, lr=0.1, discount_factor=0.9, mode="exploitation"):
@@ -48,3 +49,11 @@ class QLearningAgent(BaseAgent):
 
         self.qtable[grid][action] += self.lr * (Q_new - self.qtable[grid][action])
         #print("new qtable : ", self.qtable)
+    
+    def save_qtable(self, path="qtable.pkl"):
+        with open(path, "wb") as file:
+            pickle.dump(self.qtable, file)
+
+    def load_qtable(self, path="qtable.pkl"):
+        with open(path, "rb") as file:
+            self.qtable = pickle.load(file)
