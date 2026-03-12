@@ -2,8 +2,6 @@
 ### Implements the GameEngine class, to run games
 
 from statistics import mean
-from turtle import st
-
 
 class GameEngine():
     def __init__(self, gameState, player1=None, player2=None):
