@@ -2,9 +2,10 @@
 ### Implements the GameEngine class, to run games
 
 from statistics import mean
+from agents.base_agent import BaseAgent
 
 class GameEngine():
-    def __init__(self, gameState, player1=None, player2=None):
+    def __init__(self, gameState, player1:BaseAgent=None, player2:BaseAgent=None):
         self.state = gameState
         self.player1 = player1
         self.player2 = player2
@@ -73,7 +74,6 @@ class GameEngine():
         stats = [[0]*4 for _ in range(len(agents))]
         for i in range(len(agents)):
             stats[i][0] = mean([wins[i][j][0] for j in range(len(wins[i]))]) # average win % as p1
-            #transposed = [list(row) for row in zip(*wins)]
             stats[i][1] = mean([wins[j][i][1] for j in range(len(wins))]) # average win % as p2
             stats[i][2] = (stats[i][0]+stats[i][1])/2 # average global win %
             stats[i][3] = 0
