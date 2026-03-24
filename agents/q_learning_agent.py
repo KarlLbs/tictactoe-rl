@@ -32,10 +32,8 @@ class QLearningAgent(BaseAgent):
             return action
 
     def update_qtable(self, grid, action, reward, new_grid):
-        #print("previous qtable : ", self.qtable)
         grid = tuple(grid)
         if grid not in self.qtable :
-            #self.qtable[grid] = [0 if grid[i] is None else float('-inf') for i in range(9)]
             self.qtable[grid] = {i : 0 for i in range(9) if grid[i] is None}
         
         Q_new = reward
@@ -48,7 +46,6 @@ class QLearningAgent(BaseAgent):
             Q_new += self.df * max_future_q
 
         self.qtable[grid][action] += self.lr * (Q_new - self.qtable[grid][action])
-        #print("new qtable : ", self.qtable)
     
     def save_qtable(self, path="qtable.pkl"):
         with open(path, "wb") as file:
