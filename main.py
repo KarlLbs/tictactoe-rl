@@ -1,27 +1,40 @@
-from game import Game
+### main.py
 
+from training import Trainer
+from game_state import GameState
+from game_engine import GameEngine
+from agents.human_agent import HumanAgent
+from agents.random_agent import RandomAgent
+from agents.q_learning_agent import QLearningAgent
+from agents.next_square_agent import NextSquareAgent
+from agents.middle_random_agent import MiddleRandomAgent
+from agents.deep_learning_agent import DeepLearningAgent
+from tests import test_game_state, test_random_agent, test_engine, test_tournament
 
 def main():
-    print("Hello from tictactoe-rl!")
-    game = Game()
-    game.render()
-    game.step(4, 1)
-    game.render()
-    game.step(0, 2)
-    game.render()
-    game.step(1, 2)
-    game.step(0, 1)
-    game.render()
-    game.step(2, 1)
-    game.render()
-    game.step(1, 2)
-    game.render()
-    game.step(6, 1)
-    game.render()
-    game.step(8, 2)
-    game.reset()
-    game.render()
+    game = GameState()
+    agent = QLearningAgent(mode="exploration")
+    opponent = RandomAgent()
 
+    # Before training
+    print("Before training :")
+    engine_p1 = GameEngine(game, agent, opponent)
+    engine_p2 = GameEngine(game, opponent, agent)
+    engine_p1.play_x_games(10000, render=True)
+    engine_p2.play_x_games(10000, render=True)
+
+    # Training
+    nb_episodes = 10000
+    trainer = Trainer(game)
+    trainer.qlearning_training_loop(nb_episodes, agent, opponent)
+
+    #print(agent.qtable[tuple([None for _ in range(9)])])
+
+    # After training
+    print("\nAfter training :")
+    agent.mode = "exploitation"
+    engine_p1.play_x_games(10000, render=True)
+    engine_p2.play_x_games(10000, render=True)
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,98 @@
+### game_engine.py
+### Implements the GameEngine class, to run games
+
+from statistics import mean
+from agents.base_agent import BaseAgent
+
+class GameEngine():
+    def __init__(self, gameState, player1:BaseAgent=None, player2:BaseAgent=None):
+        self.state = gameState
+        self.player1 = player1
+        self.player2 = player2
+
+    def play_game(self, render=False):
+        grid = self.state.reset()
+        done_flag = False
+        while not done_flag:
+            if self.state.whos_turn_is_it()==1:
+                action = self.player1.chose_action(grid)
+                grid, done_flag = self.state.step(action)
+                if render : 
+                    print(f"Player 1 move : square {action}")
+                    self.state.render()
+            else : 
+                action = self.player2.chose_action(grid)
+                grid, done_flag = self.state.step(action)
+                if render : 
+                    print(f"Player 2 move : square {action}")
+                    self.state.render()
+        if self.state.detect_end()==0:
+            if render : 
+                print("Tie !")
+                self.state.render()
+            return 0
+        else : 
+            winner = 1 if self.state.whos_turn_is_it()==2 else 2
+            if render : 
+                print(f"Player {winner} victory !")
+            return winner
+    
+    def play_x_games(self, x:int, render=False):
+        wins = []
+        for _ in range(x):
+            wins.append(self.play_game())
+        if render:
+            print(f"Results after {x} games :")
+            print(f"Player 1 ({self.player1.__repr__()}): {wins.count(1)} wins ({100*wins.count(1)/len(wins):.2f}%)")
+            print(f"Player 2 ({self.player2.__repr__()}): {wins.count(2)} wins ({100*wins.count(2)/len(wins):.2f}%)")
+            print(f"Ties : {wins.count(0)} ({100*wins.count(0)/len(wins):.2f}%)")
+        return wins
+    
+    def play_x_games_fair(self, x:int, render=False):
+        wins = []
+        for _ in range(x//2):
+            wins.append(self.play_game(render))
+        self.__init__(self.state, self.player2, self.player1)
+        for _ in range(x//2 + x%2):
+            winner = 1 if self.play_game(render)==2 else 2
+            wins.append(winner)
+        print(f"Results after {x} games, alternating who starts:")
+        print(f"{self.player2.__repr__()}: {wins.count(1)} wins ({100*wins.count(1)/len(wins):.2f}%)")
+        print(f"{self.player1.__repr__()}: {wins.count(2)} wins ({100*wins.count(2)/len(wins):.2f}%)")
+        print(f"Ties : {wins.count(0)} ({100*wins.count(0)/len(wins):.2f}%)")  
+
+    def tournament(self, agents:list, nb_games:int):
+        # Playing all the games and storing the wins
+        wins = [[0] * len(agents) for _ in range(len(agents))]
+        for i in range(len(agents)):
+            self.player1 = agents[i]
+            for j in range(len(agents)):
+                self.player2 = agents[j]
+                results = self.play_x_games(nb_games)
+                wins[i][j] = (results.count(1)/nb_games*100, results.count(2)/nb_games*100, results.count(0)/nb_games*100)
+        # Computing stats from the wins
+        stats = [[0]*4 for _ in range(len(agents))]
+        for i in range(len(agents)):
+            stats[i][0] = mean([wins[i][j][0] for j in range(len(wins[i]))]) # average win % as p1
+            stats[i][1] = mean([wins[j][i][1] for j in range(len(wins))]) # average win % as p2
+            stats[i][2] = (stats[i][0]+stats[i][1])/2 # average global win %
+            stats[i][3] = 0
+            for j in range(len(agents)):
+                if wins[i][j][0]>wins[j][i][0]:
+                    stats[i][3]+=1
+        # Displaying results
+        col_width = 25
+        print("All duels win % : (p1 wins, p2 wins, ties)")
+        print(r"Player 1\Player 2".rjust(col_width) + "".join(str(l).rjust(col_width) for l in agents)) # Print header row
+        for label, row in zip(agents, wins): # Print each row with its label
+            print(str(label).rjust(col_width) + "".join(str(tuple(round(x, 1) for x in v)).rjust(col_width) for v in row))
+
+        labels = [r"Player 1\Player 2", r"Average win % as p1", r"Average win % as p2", r"Overall win %", r"Number of duels won"]
+        combined = list(zip(agents, stats))
+        combined.sort(key=lambda x: x[1][3], reverse=True)        
+        print("\nStats : ")
+        print("".join(str(l).rjust(col_width) for l in labels))
+        for label, row in combined:
+            print(str(label).rjust(col_width) + "".join(f"{v:.2f}".rjust(col_width) for v in row)) 
+   
+        return wins
