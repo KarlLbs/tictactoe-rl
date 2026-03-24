@@ -18,3 +18,5 @@ class HumanAgent(BaseAgent):
                 return value
             except ValueError:
                 print("Please enter a valid square integer.")
+            except Exception as e:
+                print("Unexpected input error : ", e)
