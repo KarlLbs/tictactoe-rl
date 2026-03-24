@@ -18,10 +18,10 @@ def main():
 
     # Before training
     print("Before training :")
-    engine = GameEngine(game, agent, opponent)
-    engine2 = GameEngine(game, opponent, agent)
-    engine.play_x_games(10000)
-    engine2.play_x_games(10000)
+    engine_p1 = GameEngine(game, agent, opponent)
+    engine_p2 = GameEngine(game, opponent, agent)
+    engine_p1.play_x_games(10000)
+    engine_p2.play_x_games(10000)
 
     # Training
     nb_episodes = 10000
@@ -33,8 +33,8 @@ def main():
     # After training
     print("\nAfter training :")
     agent.mode = "exploitation"
-    engine.play_x_games(10000)
-    engine2.play_x_games(10000)
+    engine_p1.play_x_games(10000)
+    engine_p2.play_x_games(10000)
 
 if __name__ == "__main__":
     main()
