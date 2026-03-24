@@ -17,7 +17,7 @@ class QLearningAgent(BaseAgent):
         if self.mode == "exploitation":
             if grid in self.qtable : 
                 possible_actions = self.qtable[grid]
-                action = max(possible_actions.values())
+                action = max(possible_actions, key=possible_actions.get)
             else : 
                 possible_actions = [i for i in range(9) if grid[i] is None]
                 action = random.choice(possible_actions)
